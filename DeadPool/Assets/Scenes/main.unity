@@ -97,6 +97,7 @@ GameObject:
   - 92: {fileID: 184119767}
   - 124: {fileID: 184119766}
   - 81: {fileID: 184119765}
+  - 114: {fileID: 184119770}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -166,11 +167,28 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 184119764}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.5, z: -10}
+  m_LocalPosition: {x: 0, y: 1.16299999, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 1333260406}
-  m_RootOrder: 0
+  m_Father: {fileID: 0}
+  m_RootOrder: 1
+--- !u!114 &184119770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 184119764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc7770fc7957ddc449cf2cf3a11ff589, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  personajes:
+  - {fileID: 1333260406}
+  separacion: 0
+  velocidad: 4
+  constanteMultiplicativa: .00999999978
+  fijarLadoY: 1
 --- !u!1 &682573017
 GameObject:
   m_ObjectHideFlags: 0
@@ -348,8 +366,9 @@ GameObject:
   - 212: {fileID: 1333260405}
   - 61: {fileID: 1333260408}
   - 50: {fileID: 1333260407}
-  - 114: {fileID: 1333260409}
   - 95: {fileID: 1333260410}
+  - 114: {fileID: 1333260409}
+  - 114: {fileID: 1333260411}
   m_Layer: 8
   m_Name: jugador
   m_TagString: Untagged
@@ -393,10 +412,11 @@ Transform:
   m_LocalPosition: {x: 0, y: -.337000012, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 184119769}
   - {fileID: 1696389580}
+  - {fileID: 2111140076}
+  - {fileID: 1998443551}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
 --- !u!50 &1333260407
 Rigidbody2D:
   serializedVersion: 2
@@ -420,7 +440,7 @@ BoxCollider2D:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1333260404}
   m_Enabled: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 6c2674b00f445f5499c64e2a0063fd42, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_Offset: {x: -.0196458697, y: -.182208061}
@@ -434,15 +454,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 1333260404}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe15f6632dd2f464188aa70f9fed3385, type: 3}
+  m_Script: {fileID: 11500000, guid: 5e2e465a28fe14d4b92d400d7870ee4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 8
-  jumpImpulse: 15
-  groundCheckPoint: {fileID: 1696389580}
-  whatIsGround:
+  ID: 0
+  bando: 0
+  velocidad: 3.5999999
+  salto: 12
+  vivo: 1
+  layer:
     serializedVersion: 2
     m_Bits: 512
+  interactable: 1
+  posArrI: {fileID: 1696389580}
+  posAbaD: {fileID: 2111140076}
+  posicionArma: {fileID: 1998443551}
+  habilidad: 0
+  enSuelo: 1
 --- !u!95 &1333260410
 Animator:
   serializedVersion: 3
@@ -460,6 +488,19 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &1333260411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1333260404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 310df356fd003794d8fff0d2ba637d00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jugador: 1
+  interactable: 1
 --- !u!1 &1696389579
 GameObject:
   m_ObjectHideFlags: 0
@@ -469,7 +510,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 1696389580}
   m_Layer: 8
-  m_Name: GroundCheck
+  m_Name: GroundCheckSI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -482,11 +523,11 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1696389579}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -.0199999996, y: -.34799999, z: 0}
-  m_LocalScale: {x: 1.28750002, y: .075000152, z: 1}
+  m_LocalPosition: {x: -.400000006, y: -.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1333260406}
-  m_RootOrder: 1
+  m_RootOrder: 0
 --- !u!1 &1867615307
 GameObject:
   m_ObjectHideFlags: 0
@@ -511,8 +552,8 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1867615307}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.78999996, y: 1.62, z: 0}
-  m_LocalScale: {x: .587500095, y: 1, z: 1}
+  m_LocalPosition: {x: -5.80999994, y: 2.0999999, z: 0}
+  m_LocalScale: {x: .587500095, y: 4.27454996, z: 1}
   m_Children: []
   m_Father: {fileID: 841087079}
   m_RootOrder: 2
@@ -555,3 +596,57 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 136bab76ee1381f47aace0711813f61d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
+--- !u!1 &1998443550
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1998443551}
+  m_Layer: 8
+  m_Name: Disparo
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1998443551
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1998443550}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: .419999987, y: -.159999996, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1333260406}
+  m_RootOrder: 2
+--- !u!1 &2111140075
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 2111140076}
+  m_Layer: 8
+  m_Name: GroundCheckID
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2111140076
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2111140075}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: .400000006, y: -.699999988, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1333260406}
+  m_RootOrder: 1
