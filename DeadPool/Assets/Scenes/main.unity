@@ -369,6 +369,7 @@ GameObject:
   - 95: {fileID: 1333260410}
   - 114: {fileID: 1333260409}
   - 114: {fileID: 1333260411}
+  - 114: {fileID: 1333260412}
   m_Layer: 8
   m_Name: jugador
   m_TagString: Untagged
@@ -401,7 +402,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: b1cf0652eaf4d3046b925e6569890777, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: .992647052, g: .992647052, b: .992647052, a: 1}
 --- !u!4 &1333260406
 Transform:
   m_ObjectHideFlags: 0
@@ -470,7 +471,7 @@ MonoBehaviour:
   posAbaD: {fileID: 2111140076}
   posicionArma: {fileID: 1998443551}
   habilidad: 0
-  enSuelo: 1
+  enSuelo: 0
 --- !u!95 &1333260410
 Animator:
   serializedVersion: 3
@@ -478,7 +479,7 @@ Animator:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1333260404}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: cd28fd35b7cd770429bc3b9ccafd68ab, type: 2}
   m_CullingMode: 0
@@ -501,6 +502,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jugador: 1
   interactable: 1
+--- !u!114 &1333260412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1333260404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50376b5b496a18844ac4f8a90d03423f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animaciones:
+  - condiciones:
+    - nombreCondicion: Mov
+      valor: 0
+      condicional: 1
+    - nombreCondicion: Salto
+      valor: 0
+      condicional: 0
+    terminar: 0
+    otra: 0
+    sprites:
+    - {fileID: 21300000, guid: e2ba51860f85bf04e85eba76487ac9c9, type: 3}
+    - {fileID: 21300000, guid: c714d73fe37b68b4f99ece34668192a3, type: 3}
+    fps: 5
 --- !u!1 &1696389579
 GameObject:
   m_ObjectHideFlags: 0
