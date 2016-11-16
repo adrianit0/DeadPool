@@ -110,6 +110,7 @@ public class Animacion : MonoBehaviour {
 
 [System.Serializable]
 public class AnimacionClip {
+    public string nombre = "";
     public AnimacionCondicion[] condiciones = new AnimacionCondicion[0];
     public TERMINAR terminar = TERMINAR.Repetir;
     public int otra = 0;

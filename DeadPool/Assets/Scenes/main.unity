@@ -514,7 +514,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animaciones:
-  - condiciones:
+  - nombre: Movimiento
+    condiciones:
     - nombreCondicion: Mov
       valor: 0
       condicional: 1
@@ -526,6 +527,35 @@ MonoBehaviour:
     sprites:
     - {fileID: 21300000, guid: e2ba51860f85bf04e85eba76487ac9c9, type: 3}
     - {fileID: 21300000, guid: c714d73fe37b68b4f99ece34668192a3, type: 3}
+    fps: 5
+  - nombre: Salto
+    condiciones:
+    - nombreCondicion: 
+      valor: 0
+      condicional: 0
+    terminar: 0
+    otra: 0
+    sprites:
+    - {fileID: 21300000, guid: b6154b4de9d5d0d418fbcfb3b994579a, type: 3}
+    fps: 2
+  - nombre: "Ca\xF1\xF3n"
+    condiciones:
+    - nombreCondicion: Arma
+      valor: 1
+      condicional: 0
+    - nombreCondicion: Mov
+      valor: 0
+      condicional: 0
+    terminar: 1
+    otra: 0
+    sprites:
+    - {fileID: 21300000, guid: fa50d344d511cc840b4f3261d626df0c, type: 3}
+    - {fileID: 21300000, guid: 6231bae53782fc0479d981fec74df4ae, type: 3}
+    - {fileID: 21300000, guid: a97720f60477f9b4db974c84f7d81d89, type: 3}
+    - {fileID: 21300000, guid: ead69638f3df55c4093a32a9c4ebc197, type: 3}
+    - {fileID: 21300000, guid: 62829a8bdc1e0214a825ac497f20ee2f, type: 3}
+    - {fileID: 21300000, guid: feeef79dbaa99144a8813335d2bf408f, type: 3}
+    - {fileID: 21300000, guid: 133f9d8ef8ac0134fa41e9a3fdff3e22, type: 3}
     fps: 5
 --- !u!1 &1696389579
 GameObject:
