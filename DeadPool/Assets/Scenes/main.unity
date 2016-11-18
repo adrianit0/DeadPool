@@ -146,7 +146,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 3
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -513,6 +513,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50376b5b496a18844ac4f8a90d03423f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  variables:
+    keys:
+    - fgdgh
+    - sdgsgd
+    values:
+    - 0
+    - 0
   animaciones:
   - nombre: Movimiento
     condiciones:
@@ -524,6 +531,7 @@ MonoBehaviour:
       condicional: 0
     terminar: 0
     otra: 0
+    repetir: 0
     sprites:
     - {fileID: 21300000, guid: e2ba51860f85bf04e85eba76487ac9c9, type: 3}
     - {fileID: 21300000, guid: c714d73fe37b68b4f99ece34668192a3, type: 3}
@@ -535,6 +543,7 @@ MonoBehaviour:
       condicional: 0
     terminar: 0
     otra: 0
+    repetir: 0
     sprites:
     - {fileID: 21300000, guid: b6154b4de9d5d0d418fbcfb3b994579a, type: 3}
     fps: 2
@@ -546,8 +555,9 @@ MonoBehaviour:
     - nombreCondicion: Mov
       valor: 0
       condicional: 0
-    terminar: 1
+    terminar: 3
     otra: 0
+    repetir: 1
     sprites:
     - {fileID: 21300000, guid: fa50d344d511cc840b4f3261d626df0c, type: 3}
     - {fileID: 21300000, guid: 6231bae53782fc0479d981fec74df4ae, type: 3}
@@ -557,6 +567,18 @@ MonoBehaviour:
     - {fileID: 21300000, guid: feeef79dbaa99144a8813335d2bf408f, type: 3}
     - {fileID: 21300000, guid: 133f9d8ef8ac0134fa41e9a3fdff3e22, type: 3}
     fps: 5
+  - nombre: Disparo
+    condiciones:
+    - nombreCondicion: Arma
+      valor: 0
+      condicional: 0
+    terminar: 3
+    otra: 0
+    repetir: 1
+    sprites:
+    - {fileID: 21300000, guid: 1b3d43b05a75c114bbadcce1627c1ddf, type: 3}
+    - {fileID: 21300000, guid: f29db7f0b73f4c441b549b5404ada2cc, type: 3}
+    fps: 2
 --- !u!1 &1696389579
 GameObject:
   m_ObjectHideFlags: 0

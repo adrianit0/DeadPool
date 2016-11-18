@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 
 public enum CONDICIONAL { IgualQue, MayorQue, MayorIgualQue, MenorQue, MenorIgualQue, DistintoQue}
-public enum TERMINAR { Repetir, NoSeguir, EmpezarOtra };
+public enum TERMINAR { Repetir, NoSeguir, EmpezarOtra, ActualizarSolo };
 
 public class Animacion : MonoBehaviour {
-    public Dictionary<string, float> variables = new Dictionary<string, float>();
+    public AnimacionVariable variables = new AnimacionVariable();
     public AnimacionClip[] animaciones = new AnimacionClip[0];
 
     SpriteRenderer render;
@@ -18,7 +18,7 @@ public class Animacion : MonoBehaviour {
     void Awake () {
         render = GetComponent<SpriteRenderer>();
         if (render == null) {
-            Debug.LogError("Renderizador en el objeto "+name+" no encontrado");
+            Debug.LogError("Renderizador en el objeto "+name+" no encontrado.");
         }
 	}
 
@@ -33,7 +33,7 @@ public class Animacion : MonoBehaviour {
         tiempoActual += Time.deltaTime;
 
         if (tiempoActual>tiempoTotal) {
-            tiempoActual -= tiempoTotal;
+            tiempoActual = 0;
 
             render.sprite = animaciones[actual].sprites[step];
             step++;
@@ -49,6 +49,12 @@ public class Animacion : MonoBehaviour {
                     case TERMINAR.NoSeguir:
                         parar = true;
                         break;
+                    case TERMINAR.ActualizarSolo:
+                        ActualizarCondiciones();
+                        break;
+                    default:
+                        Debug.LogWarning("Opción no configurada");
+                        break;
                 }
             }
         }
@@ -57,6 +63,7 @@ public class Animacion : MonoBehaviour {
     public void SetFloat (string texto, float cantidad) {
         if (variables.ContainsKey (texto)) {
             variables[texto] = cantidad;
+            ActualizarCondiciones();
         } else {
             Debug.LogWarning("Variable " + texto + " no existe.");
         }
@@ -68,6 +75,8 @@ public class Animacion : MonoBehaviour {
         step = 0;
         stepMaximo = animaciones[id].sprites.Length;
         tiempoTotal = 1 / (float) animaciones[id].fps;
+        if(animaciones[id].sprites.Length > 0)
+            render.sprite = animaciones[id].sprites[0];
         parar = false;
     }
 
@@ -82,6 +91,9 @@ public class Animacion : MonoBehaviour {
                 }
             }
             if (apto) {
+                if(anim == actual && !animaciones[actual].repetir)
+                    return;
+
                 SetAnimation(anim);
                 break;
             }
@@ -108,12 +120,17 @@ public class Animacion : MonoBehaviour {
     }
 }
 
+
+
 [System.Serializable]
 public class AnimacionClip {
     public string nombre = "";
     public AnimacionCondicion[] condiciones = new AnimacionCondicion[0];
     public TERMINAR terminar = TERMINAR.Repetir;
     public int otra = 0;
+
+    //Ajustes avanzados
+    public bool repetir = false;
 
     public Sprite[] sprites = new Sprite[0];
     public int fps = 2;

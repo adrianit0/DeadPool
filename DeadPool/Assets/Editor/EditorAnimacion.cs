@@ -24,6 +24,7 @@ public class EditorAnimacion : EditorWindow {
     float nuevoValor = 0;
 
     float heightButton = 15;
+    float buttonWidth = 20;
 
     [MenuItem("DeadPool/Editor de animación", false, 140)]
     static void Init() {
@@ -126,20 +127,34 @@ public class EditorAnimacion : EditorWindow {
 
             EditorGUILayout.BeginHorizontal();
             if(idAnimacion == i) {
-                GUILayout.Label(_nombre, GUILayout.Width(180));
+                GUILayout.Label(_nombre, GUILayout.Width(200-(buttonWidth*3)));
             } else {
-                if(GUILayout.Button(_nombre, GUILayout.Width(180))) {
+                if(GUILayout.Button(_nombre, GUILayout.Width(200 - (buttonWidth * 3)))) {
                     GUIUtility.keyboardControl = 0;
                     idAnimacion = i;
                     if(playing)
                         Stop();
                 }
             }
-            if(GUILayout.Button("-", GUILayout.Width(20))) {
+            if(GUILayout.Button("-", GUILayout.Width(buttonWidth))) {
                 if(EditorUtility.DisplayDialog("Confirmar", "¿Deseas eliminar la animación " + animacion.animaciones[i].nombre+ "?", "Sí", "No")) {
                     GUIUtility.keyboardControl = 0;
                     animacion.animaciones = BorrarValor<AnimacionClip>(animacion.animaciones, i);
                     idAnimacion = Mathf.Clamp(idAnimacion - 1, 0, animacion.animaciones.Length - 1);
+                }
+            }
+            if(i == animacion.animaciones.Length - 1) {
+                GUILayout.Space(buttonWidth + 4);
+            } else {
+                if(GUILayout.Button("↓", GUILayout.Width(buttonWidth))) {
+                    animacion.animaciones = CambiarValor<AnimacionClip>(animacion.animaciones, i, i + 1);
+                }
+            }
+            if(i == 0) {
+                GUILayout.Space(buttonWidth);
+            } else {
+                if(GUILayout.Button("↑", GUILayout.Width(buttonWidth))) {
+                    animacion.animaciones = CambiarValor<AnimacionClip>(animacion.animaciones, i, i - 1);
                 }
             }
             EditorGUILayout.EndHorizontal();
@@ -157,11 +172,18 @@ public class EditorAnimacion : EditorWindow {
         GUILayout.Label("Variables", EditorStyles.centeredGreyMiniLabel);
         scrollPositionVariables = GUILayout.BeginScrollView(scrollPositionVariables, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
         
-        foreach(KeyValuePair<string, float> valor in animacion.variables) {
-            EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.TextField("Variable: ", valor.Key);
-            animacion.variables[valor.Key] = EditorGUILayout.FloatField("Valor: ", valor.Value);
-            EditorGUILayout.EndHorizontal();
+        if (animacion.variables != null && animacion.variables.Count>0) {
+            for (int i = 0; i < animacion.variables.Count; i++) {
+                EditorGUILayout.BeginHorizontal();
+                EditorGUILayout.LabelField("[" + i + "]", GUILayout.Width (20));
+                string oldText = animacion.variables[i];
+                animacion.variables[i] = EditorGUILayout.TextField(animacion.variables[i]);
+                if (oldText != animacion.variables[i]) {
+                    CambiarTextos(oldText, animacion.variables[i]);
+                }
+                animacion.variables[animacion.variables[i]] = EditorGUILayout.FloatField(animacion.variables[animacion.variables[i]]);
+                EditorGUILayout.EndHorizontal();
+            }
         }
         GUILayout.Space(3);
 
@@ -206,9 +228,12 @@ public class EditorAnimacion : EditorWindow {
         if (animacion.animaciones[idAnimacion].condiciones.Length==0) {
             EditorGUILayout.HelpBox("No se ha creado ninguna condición, por lo que siempre será TRUE", MessageType.Warning);
         }
+
+        string[] list = animacion.variables.GetListWithEmptyCase();
         for (int i = 0; i < animacion.animaciones[idAnimacion].condiciones.Length; i++) {
             EditorGUILayout.BeginHorizontal();
-            animacion.animaciones[idAnimacion].condiciones[i].nombreCondicion = EditorGUILayout.TextField("Variable: ", animacion.animaciones[idAnimacion].condiciones[i].nombreCondicion);
+            animacion.animaciones[idAnimacion].condiciones[i].nombreCondicion = Popup(animacion.animaciones[idAnimacion].condiciones[i].nombreCondicion, list);
+                //EditorGUILayout.TextField("Variable: ", animacion.animaciones[idAnimacion].condiciones[i].nombreCondicion);
             animacion.animaciones[idAnimacion].condiciones[i].condicional = (CONDICIONAL) EditorGUILayout.EnumPopup(animacion.animaciones[idAnimacion].condiciones[i].condicional);
             animacion.animaciones[idAnimacion].condiciones[i].valor = EditorGUILayout.FloatField(animacion.animaciones[idAnimacion].condiciones[i].valor);
             if(GUILayout.Button("-", GUILayout.Width(20))) {
@@ -230,6 +255,7 @@ public class EditorAnimacion : EditorWindow {
         GUILayout.Space(5);
         animacion.animaciones[idAnimacion].nombre = EditorGUILayout.TextField("Nombre: ", animacion.animaciones[idAnimacion].nombre);
         animacion.animaciones[idAnimacion].fps = Mathf.Clamp (EditorGUILayout.IntField("FPS: ", animacion.animaciones[idAnimacion].fps), 1, 30);
+        animacion.animaciones[idAnimacion].repetir = EditorGUILayout.Toggle("Reiniciable: ", animacion.animaciones[idAnimacion].repetir);
 
         EditorGUILayout.BeginHorizontal();
         animacion.animaciones[idAnimacion].terminar = (TERMINAR) EditorGUILayout.EnumPopup("Al terminar: ", animacion.animaciones[idAnimacion].terminar);
@@ -269,14 +295,14 @@ public class EditorAnimacion : EditorWindow {
             if (i== animacion.animaciones[idAnimacion].sprites.Length-1) {
                 GUILayout.Space(heightButton);
             } else {
-                if(GUILayout.Button(">", GUILayout.Width(50), GUILayout.Height(heightButton))) {
+                if(GUILayout.Button("→", GUILayout.Width(50), GUILayout.Height(heightButton))) {
                     animacion.animaciones[idAnimacion].sprites = CambiarValor<Sprite>(animacion.animaciones[idAnimacion].sprites, i, i+1);
                 }
             }
             if(i == 0) {
                 GUILayout.Space(heightButton);
             } else {
-                if(GUILayout.Button("<", GUILayout.Width(50), GUILayout.Height(heightButton))) {
+                if(GUILayout.Button("←", GUILayout.Width(50), GUILayout.Height(heightButton))) {
                     animacion.animaciones[idAnimacion].sprites = CambiarValor<Sprite>(animacion.animaciones[idAnimacion].sprites, i, i - 1);
                 }
             }
@@ -290,6 +316,30 @@ public class EditorAnimacion : EditorWindow {
         GUILayout.EndScrollView();
 
         GUILayout.EndVertical();
+    }
+
+    string Popup (string texto, string[] lista, params GUILayoutOption[] options) {
+        for (int i = 0; i < lista.Length; i++) {
+            if (lista[i]==texto) {
+                int dev = EditorGUILayout.Popup(i, lista);
+                return lista[dev];
+            }
+        }
+        EditorGUILayout.Popup(0, lista);
+        return lista[0];
+    }
+
+    void CambiarTextos (string oldText, string newText) {
+        if(oldText == newText)
+            return;
+
+        for (int x = 0; x < animacion.animaciones.Length; x++) {
+            for (int y = 0; y < animacion.animaciones[x].condiciones.Length; y++) {
+                if (animacion.animaciones[x].condiciones[y].nombreCondicion== oldText) {
+                    animacion.animaciones[x].condiciones[y].nombreCondicion = newText;
+                }
+            }
+        }
     }
 
     void Play () {

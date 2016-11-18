@@ -45,12 +45,12 @@ public class Character : MonoBehaviour {
     Rigidbody2D rigid;
     BoxCollider2D coll;
     SpriteRenderer render;
-    Animator anim;
+    Animacion anim;
 
     void Awake () {
         rigid = GetComponent<Rigidbody2D>();
         coll = GetComponent<BoxCollider2D>();
-        anim = GetComponent<Animator>();
+        anim = GetComponent<Animacion>();
         render = GetComponent<SpriteRenderer>();
 
         fixedDelta = Time.fixedDeltaTime;
@@ -71,8 +71,8 @@ public class Character : MonoBehaviour {
 
         rigid.velocity = new Vector2 (velocidad * mov, rigid.velocity.y);
 
-        anim.SetFloat("HorSpeed", Mathf.Abs(rigid.velocity.x));
-        anim.SetFloat("VerSpeed", Mathf.Abs(rigid.velocity.y));
+        anim.SetFloat("Movimiento", Mathf.Abs(rigid.velocity.x));
+        anim.SetFloat("Salto", Mathf.Abs(rigid.velocity.y));
 
         lastTimeShot += fixedDelta;
         lastJump += fixedDelta;
