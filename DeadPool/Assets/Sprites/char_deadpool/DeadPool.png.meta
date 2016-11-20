@@ -1,0 +1,243 @@
+fileFormatVersion: 2
+guid: 035b1b6e8bf6ffa49ad027383f546a96
+timeCreated: 1479675978
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: DeadPool_0
+    21300002: DeadPool_1
+    21300004: DeadPool_2
+    21300006: DeadPool_3
+    21300008: DeadPool_4
+    21300010: DeadPool_5
+    21300012: DeadPool_6
+    21300014: DeadPool_7
+    21300016: DeadPool_8
+    21300018: DeadPool_9
+    21300020: DeadPool_10
+    21300022: DeadPool_11
+    21300024: DeadPool_12
+    21300026: DeadPool_13
+    21300028: DeadPool_14
+    21300030: DeadPool_15
+    21300032: DeadPool_16
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -3
+  maxTextureSize: 128
+  textureSettings:
+    filterMode: 0
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 25
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: DeadPool_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 105
+        width: 21
+        height: 23
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: DeadPool_1
+      rect:
+        serializedVersion: 2
+        x: 21
+        y: 105
+        width: 25
+        height: 23
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: DeadPool_2
+      rect:
+        serializedVersion: 2
+        x: 46
+        y: 100
+        width: 30
+        height: 28
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: DeadPool_3
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 77
+        width: 21
+        height: 23
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: DeadPool_4
+      rect:
+        serializedVersion: 2
+        x: 23
+        y: 77
+        width: 26
+        height: 23
+      alignment: 9
+      pivot: {x: .415782481, y: .507653952}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: DeadPool_5
+      rect:
+        serializedVersion: 2
+        x: 77
+        y: 77
+        width: 28
+        height: 23
+      alignment: 9
+      pivot: {x: .393132061, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: DeadPool_6
+      rect:
+        serializedVersion: 2
+        x: 87
+        y: 53
+        width: 30
+        height: 24
+      alignment: 9
+      pivot: {x: .353318781, y: .500000298}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: DeadPool_7
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 53
+        width: 27
+        height: 23
+      alignment: 9
+      pivot: {x: .395693213, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: DeadPool_8
+      rect:
+        serializedVersion: 2
+        x: 28
+        y: 53
+        width: 28
+        height: 23
+      alignment: 9
+      pivot: {x: .399418414, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: DeadPool_9
+      rect:
+        serializedVersion: 2
+        x: 57
+        y: 52
+        width: 29
+        height: 24
+      alignment: 9
+      pivot: {x: .372538865, y: .477998257}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: DeadPool_10
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 29
+        width: 32
+        height: 23
+      alignment: 9
+      pivot: {x: .314488471, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: DeadPool_11
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 29
+        width: 30
+        height: 23
+      alignment: 9
+      pivot: {x: .346717834, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: DeadPool_12
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 41
+        width: 9
+        height: 6
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: DeadPool_13
+      rect:
+        serializedVersion: 2
+        x: 90
+        y: 41
+        width: 18
+        height: 7
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: DeadPool_14
+      rect:
+        serializedVersion: 2
+        x: 109
+        y: 41
+        width: 18
+        height: 7
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: DeadPool_15
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 41
+        width: 5
+        height: 3
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: DeadPool_16
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 77
+        width: 26
+        height: 23
+      alignment: 9
+      pivot: {x: .41199097, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

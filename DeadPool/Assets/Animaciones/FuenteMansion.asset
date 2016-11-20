@@ -22,6 +22,6 @@ MonoBehaviour:
     otra: 0
     repetir: 0
     sprites:
-    - {fileID: 21300000, guid: fc7c4da2b398fc24691f33e1297772c2, type: 3}
-    - {fileID: 21300002, guid: fc7c4da2b398fc24691f33e1297772c2, type: 3}
+    - {fileID: 21300000, guid: 5b99995170e05f24d92b46de2db9b3b9, type: 3}
+    - {fileID: 21300002, guid: 5b99995170e05f24d92b46de2db9b3b9, type: 3}
     fps: 3

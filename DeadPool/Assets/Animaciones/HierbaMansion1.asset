@@ -14,4 +14,16 @@ MonoBehaviour:
   variables:
     keys: []
     values: []
-  animaciones: []
+  animaciones:
+  - nombre: 
+    condiciones: []
+    predeterminada: 0
+    terminar: 0
+    otra: 0
+    repetir: 0
+    sprites:
+    - {fileID: 21300010, guid: fc7c4da2b398fc24691f33e1297772c2, type: 3}
+    - {fileID: 21300012, guid: fc7c4da2b398fc24691f33e1297772c2, type: 3}
+    - {fileID: 21300014, guid: fc7c4da2b398fc24691f33e1297772c2, type: 3}
+    - {fileID: 21300012, guid: fc7c4da2b398fc24691f33e1297772c2, type: 3}
+    fps: 2
