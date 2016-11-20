@@ -10,6 +10,8 @@ public class EditorAnimacion : EditorWindow {
     Vector2 scrollPositionContenido;
 
     GameObject objetoActual;
+
+    AnimacionController controller;
     Animacion animacion;
 
     Sprite lastSprite;
@@ -20,27 +22,46 @@ public class EditorAnimacion : EditorWindow {
 
     int idAnimacion = 0;
 
+    //VARIABLES DE CONTROL
+    string nuevoNombreArchivo = "";
+    int ajustes;
+    Animacion animacionACopiar = null;
+    List<Animacion> animaciones = new List<Animacion>();
+
+    //CREAR UNA NUEVA VARIABLE
     string nuevaVariable = "";
     float nuevoValor = 0;
 
     float heightButton = 15;
     float buttonWidth = 20;
 
-    [MenuItem("DeadPool/Editor de animación", false, 140)]
+    [MenuItem("DeadPool/Editor de animación.", false, 140)]
     static void Init() {
         EditorAnimacion window = (EditorAnimacion)EditorWindow.GetWindow(typeof(EditorAnimacion));
         
         window.Show();
     }
 
-    /*[MenuItem("GameEditor/Crear nuevo archivo", false, 150)]
+    [MenuItem("DeadPool/Crear nueva animación.", false, 150)]
     public static void CreateAsset() {
-        BaseDatos asset = ScriptableObject.CreateInstance<BaseDatos>();
-        AssetDatabase.CreateAsset(asset, "Assets/NuevoDocumentoDeCartas.asset");
+        Animacion asset = ScriptableObject.CreateInstance<Animacion>();
+        AssetDatabase.CreateAsset(asset, "Assets/Animaciones/NuevaAnimacion.asset");
         AssetDatabase.SaveAssets();
         EditorUtility.FocusProjectWindow();
         Selection.activeObject = asset;
-    }*/
+    }
+
+    Animacion CreateAsset (string nombre) {
+        if(string.IsNullOrEmpty(nombre))
+            return null;
+
+        Animacion asset = ScriptableObject.CreateInstance<Animacion>();
+        AssetDatabase.CreateAsset(asset, "Assets/Animaciones/"+ nombre + ".asset");
+        AssetDatabase.SaveAssets();
+        EditorUtility.FocusProjectWindow();
+        Selection.activeObject = asset;
+        return asset;
+    }
 
     void OnInspectorUpdate() {
         Repaint();
@@ -75,29 +96,99 @@ public class EditorAnimacion : EditorWindow {
             EditorGUILayout.HelpBox("No has seleccionado ningún objeto", MessageType.Info);
             return;
         }
-        if (animacion== null) {
-            animacion = objetoActual.GetComponent<Animacion>();
-            if (animacion== null) {
+        if (controller==null) {
+            controller = objetoActual.GetComponent<AnimacionController>();
+            if (controller== null) {
                 EditorGUILayout.HelpBox("No contiene ningun script de animación", MessageType.Warning);
                 return;
             }
         }
 
+        if (animacion == null) {
+            animacion = controller.animacion;
+            if (animacion==null) {
+                GetAnimacion();
+                return;
+            }
+        }
+
+        if (animacion != controller.animacion) {
+            animacion = controller.animacion;
+        }
+
         MostrarGUI();
+
+        //SI HAY CAMBIOS -> GUARDAR EN 30s
     }
+
+    void GetAnimacion () {
+        EditorGUILayout.HelpBox("No contiene ningún archivo de animación.", MessageType.Warning);
+        EditorGUILayout.Space();
+        EditorGUILayout.LabelField("Puedes añadir tu una animación:");
+        controller.animacion = (Animacion) EditorGUILayout.ObjectField(controller.animacion, typeof(Animacion), false);
+        EditorGUILayout.Space();
+        EditorGUILayout.LabelField("Crear un nuevo archivo de animación:");
+        EditorGUILayout.BeginHorizontal();
+        nuevoNombreArchivo = EditorGUILayout.TextField("Nombre archivo:", nuevoNombreArchivo);
+        if(GUILayout.Button ("Crear")) {
+            if (string.IsNullOrEmpty(nuevoNombreArchivo)) {
+                Debug.LogWarning("No se ha creado porque el archivo debe tener un nombre");
+            } else {
+                controller.animacion = CreateAsset(nuevoNombreArchivo);
+                nuevoNombreArchivo = "";
+            }
+        }
+        EditorGUILayout.EndHorizontal();
+        EditorGUILayout.Space();
+        EditorGUILayout.LabelField("O seleccionar una de esta lista de animaciones ya creadas:");
+
+        if (GUILayout.Button ("Buscar")) {
+            BuscarAnimaciones();
+        }
+
+        EditorGUILayout.Space();
+
+        for (int i = 0; i < animaciones.Count; i++) {
+            if (GUILayout.Button (animaciones[i].ToString())) {
+                if (animaciones[i]!=null) {
+                    controller.animacion = animaciones[i];
+                } else {
+                    Debug.Log("Animacion no encontrada");
+                }
+            }
+        }
+    }
+
+    void BuscarAnimaciones () {
+        animaciones = new List<Animacion>();
+        string[] guids = AssetDatabase.FindAssets("*", new string[] { "Assets/Animaciones" });
+
+        //Debug.Log("Encontrado: " + guids.Length);
+        for (int i = 0; i < guids.Length; i++) {
+            guids[i] = AssetDatabase.GUIDToAssetPath(guids[i]);
+            Animacion anim = (Animacion) AssetDatabase.LoadAssetAtPath(guids[i], typeof (Animacion));
+            if (anim!=null) {
+                animaciones.Add(anim);
+            } else {
+                Debug.LogWarning(guids[i] + " no compatible con Animacion");
+            }
+        }
+    }
+    
 
     void GetObjeto (GameObject obj) {
         objetoActual = obj;
         if (objetoActual == null) {
-            animacion = null;
+            controller = null;
             return;
         }
 
-        if (animacion!=null&&playing) {
+        if (controller!=null&&playing) {
             Stop();
         }
 
-        animacion = objetoActual.GetComponent<Animacion>();
+        controller = objetoActual.GetComponent<AnimacionController>();
+        animacion = (controller!=null) ? controller.animacion : null;
     }
     
     void MostrarGUI() {
@@ -136,13 +227,16 @@ public class EditorAnimacion : EditorWindow {
                         Stop();
                 }
             }
-            if(GUILayout.Button("-", GUILayout.Width(buttonWidth))) {
-                if(EditorUtility.DisplayDialog("Confirmar", "¿Deseas eliminar la animación " + animacion.animaciones[i].nombre+ "?", "Sí", "No")) {
-                    GUIUtility.keyboardControl = 0;
-                    animacion.animaciones = BorrarValor<AnimacionClip>(animacion.animaciones, i);
-                    idAnimacion = Mathf.Clamp(idAnimacion - 1, 0, animacion.animaciones.Length - 1);
+            if (animacion.animaciones.Length>1) {
+                if(GUILayout.Button("-", GUILayout.Width(buttonWidth))) {
+                    if(EditorUtility.DisplayDialog("Confirmar", "¿Deseas eliminar la animación " + animacion.animaciones[i].nombre + "?", "Sí", "No")) {
+                        GUIUtility.keyboardControl = 0;
+                        animacion.animaciones = BorrarValor<AnimacionClip>(animacion.animaciones, i);
+                        idAnimacion = Mathf.Clamp(idAnimacion - 1, 0, animacion.animaciones.Length - 1);
+                    }
                 }
             }
+            
             if(i == animacion.animaciones.Length - 1) {
                 GUILayout.Space(buttonWidth + 4);
             } else {
@@ -160,7 +254,7 @@ public class EditorAnimacion : EditorWindow {
             EditorGUILayout.EndHorizontal();
         }
         GUILayout.Space(5);
-        if(GUILayout.Button("Crear nueva animación", GUILayout.Width(205))) {
+        if(GUILayout.Button("Crear nueva animación", GUILayout.Width(205))||animacion.animaciones.Length==0) {
             GUIUtility.keyboardControl = 0;
             animacion.animaciones = NuevoValor<AnimacionClip>(animacion.animaciones);
             idAnimacion = animacion.animaciones.Length - 1;
@@ -169,7 +263,7 @@ public class EditorAnimacion : EditorWindow {
         GUILayout.EndVertical();
 
         GUILayout.BeginVertical("box", GUILayout.Width(230));
-        GUILayout.Label("Variables", EditorStyles.centeredGreyMiniLabel);
+        GUILayout.Label("Variables"+((EditorApplication.isPlaying) ? " (Modo juego)" : ""), EditorStyles.centeredGreyMiniLabel);
         scrollPositionVariables = GUILayout.BeginScrollView(scrollPositionVariables, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
         
         if (animacion.variables != null && animacion.variables.Count>0) {
@@ -181,7 +275,7 @@ public class EditorAnimacion : EditorWindow {
                 if (oldText != animacion.variables[i]) {
                     CambiarTextos(oldText, animacion.variables[i]);
                 }
-                animacion.variables[animacion.variables[i]] = EditorGUILayout.FloatField(animacion.variables[animacion.variables[i]]);
+                animacion.variables[animacion.variables[i]] =  EditorGUILayout.FloatField((!EditorApplication.isPlaying) ? animacion.variables[animacion.variables[i]] : controller.variables[controller.variables[i]]);
                 EditorGUILayout.EndHorizontal();
             }
         }
@@ -219,7 +313,7 @@ public class EditorAnimacion : EditorWindow {
             }
             EditorGUILayout.HelpBox("Selecciona donde quieres cambiar de posición esta unidad usando el menú de la izquierda", MessageType.Info);
         }*/
-
+        
         GUILayout.BeginHorizontal();
         GUILayout.BeginVertical("box");
         GUILayout.Label("Condiciones", EditorStyles.centeredGreyMiniLabel);
@@ -253,15 +347,51 @@ public class EditorAnimacion : EditorWindow {
         GUILayout.BeginVertical("box");
         GUILayout.Label("Ajustes de la animación", EditorStyles.centeredGreyMiniLabel);
         GUILayout.Space(5);
-        animacion.animaciones[idAnimacion].nombre = EditorGUILayout.TextField("Nombre: ", animacion.animaciones[idAnimacion].nombre);
-        animacion.animaciones[idAnimacion].fps = Mathf.Clamp (EditorGUILayout.IntField("FPS: ", animacion.animaciones[idAnimacion].fps), 1, 30);
-        animacion.animaciones[idAnimacion].repetir = EditorGUILayout.Toggle("Reiniciable: ", animacion.animaciones[idAnimacion].repetir);
 
         EditorGUILayout.BeginHorizontal();
-        animacion.animaciones[idAnimacion].terminar = (TERMINAR) EditorGUILayout.EnumPopup("Al terminar: ", animacion.animaciones[idAnimacion].terminar);
-        if(animacion.animaciones[idAnimacion].terminar == TERMINAR.EmpezarOtra)
-            animacion.animaciones[idAnimacion].otra = EditorGUILayout.IntField("ID animacion: ", animacion.animaciones[idAnimacion].otra);
+        if (GUILayout.Button ("Básicas")) {
+            ajustes = 0;
+        }
+        if(GUILayout.Button("Avanzadas")) {
+            ajustes = 1;
+        }
         EditorGUILayout.EndHorizontal();
+
+        if (ajustes==0) {
+            bool predeterminada = EditorGUILayout.Toggle("Predeterminado: ", animacion.animaciones[idAnimacion].predeterminada);
+            if(predeterminada && predeterminada != animacion.animaciones[idAnimacion].predeterminada) {
+                for(int i = 0; i < animacion.animaciones.Length; i++) {
+                    animacion.animaciones[i].predeterminada = i == idAnimacion;
+                }
+            }
+            animacion.animaciones[idAnimacion].nombre = EditorGUILayout.TextField("Nombre: ", animacion.animaciones[idAnimacion].nombre);
+            animacion.animaciones[idAnimacion].fps = Mathf.Clamp(EditorGUILayout.IntField("FPS: ", animacion.animaciones[idAnimacion].fps), 1, 30);
+            animacion.animaciones[idAnimacion].repetir = EditorGUILayout.Toggle("Reiniciable: ", animacion.animaciones[idAnimacion].repetir);
+
+            EditorGUILayout.BeginHorizontal();
+            animacion.animaciones[idAnimacion].terminar = (TERMINAR)EditorGUILayout.EnumPopup("Al terminar: ", animacion.animaciones[idAnimacion].terminar);
+            if(animacion.animaciones[idAnimacion].terminar == TERMINAR.EmpezarOtra)
+                animacion.animaciones[idAnimacion].otra = EditorGUILayout.IntField("ID animacion: ", animacion.animaciones[idAnimacion].otra);
+            EditorGUILayout.EndHorizontal();
+        } else if (ajustes==1) {
+            EditorGUILayout.BeginHorizontal();
+            animacionACopiar = (Animacion)EditorGUILayout.ObjectField(animacionACopiar, typeof(Animacion), false);
+            if (GUILayout.Button ("Copiar")) {
+                if (animacionACopiar!=null) {
+                    animacion.animaciones = animacionACopiar.animaciones;
+                    animacion.variables = animacionACopiar.variables;
+                    animacionACopiar = null;
+                }else {
+                    Debug.LogWarning("No hay animación que copiar");
+                }
+            }
+            EditorGUILayout.EndHorizontal();
+
+            if (GUILayout.Button ("Coger lista")) {
+                BuscarAnimaciones();
+            }
+        }
+        
         GUILayout.EndVertical();
         GUILayout.EndHorizontal();
 
@@ -279,6 +409,11 @@ public class EditorAnimacion : EditorWindow {
                 Stop();
             }
         }
+
+        if (GUILayout.Button ("Guardar", GUILayout.Width(100))) {
+            Guardar();
+        }
+        EditorGUILayout.LabelField("El autoguardado está desactivado en esta versión.");
         EditorGUILayout.EndHorizontal();
         GUILayout.Space(10);
 
@@ -344,7 +479,7 @@ public class EditorAnimacion : EditorWindow {
 
     void Play () {
         playing = true;
-        render = animacion.GetComponent<SpriteRenderer>();
+        render = controller.GetComponent<SpriteRenderer>();
         tile = 0;
         lastSprite = render.sprite;
     }
@@ -354,6 +489,20 @@ public class EditorAnimacion : EditorWindow {
         render.sprite = lastSprite;
         render = null;
         lastSprite = null;
+    }
+    
+    /// <summary>
+    /// Guarda todas las animaciones que hayan dentro de la carpeta "Animaciones".
+    /// </summary>
+    void Guardar () {
+        if(animacion == null)
+            return;
+
+        BuscarAnimaciones();
+
+        for (int i = 0; i< animaciones.Count; i++) {
+            EditorUtility.SetDirty(animaciones[i]);
+        }
     }
 
     T[] NuevoValor <T>(T[] array) where T : new() {

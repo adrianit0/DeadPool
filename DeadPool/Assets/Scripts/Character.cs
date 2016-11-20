@@ -45,12 +45,12 @@ public class Character : MonoBehaviour {
     Rigidbody2D rigid;
     BoxCollider2D coll;
     SpriteRenderer render;
-    Animacion anim;
+    AnimacionController anim;
 
     void Awake () {
         rigid = GetComponent<Rigidbody2D>();
         coll = GetComponent<BoxCollider2D>();
-        anim = GetComponent<Animacion>();
+        anim = GetComponent<AnimacionController>();
         render = GetComponent<SpriteRenderer>();
 
         fixedDelta = Time.fixedDeltaTime;

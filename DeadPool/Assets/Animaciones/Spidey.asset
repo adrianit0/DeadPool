@@ -1,0 +1,106 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50376b5b496a18844ac4f8a90d03423f, type: 3}
+  m_Name: Spidey
+  m_EditorClassIdentifier: 
+  variables:
+    keys:
+    - Movimiento
+    - Salto
+    - Arma
+    - Trepar
+    values:
+    - 0
+    - 0
+    - 0
+    - 0
+  animaciones:
+  - nombre: Quieto
+    condiciones:
+    - nombreCondicion: Movimiento
+      valor: 0
+      condicional: 0
+    - nombreCondicion: Salto
+      valor: 0
+      condicional: 0
+    - nombreCondicion: Trepar
+      valor: 0
+      condicional: 0
+    predeterminada: 1
+    terminar: 0
+    otra: 0
+    repetir: 0
+    sprites:
+    - {fileID: 21300000, guid: b7b8083707b78cf439a91924b03cfca2, type: 3}
+    fps: 2
+  - nombre: Moviendose
+    condiciones:
+    - nombreCondicion: Movimiento
+      valor: 0
+      condicional: 1
+    - nombreCondicion: Salto
+      valor: 0
+      condicional: 0
+    - nombreCondicion: Trepar
+      valor: 0
+      condicional: 0
+    predeterminada: 0
+    terminar: 0
+    otra: 0
+    repetir: 0
+    sprites:
+    - {fileID: 21300000, guid: 954c88bfb7fbabb428aff33c62a4a183, type: 3}
+    - {fileID: 21300000, guid: e4b5363f63dd3964d85a521ed1eda801, type: 3}
+    fps: 5
+  - nombre: Saltando
+    condiciones:
+    - nombreCondicion: Salto
+      valor: .00100000005
+      condicional: 1
+    - nombreCondicion: Trepar
+      valor: 0
+      condicional: 0
+    predeterminada: 0
+    terminar: 0
+    otra: 0
+    repetir: 0
+    sprites:
+    - {fileID: 21300000, guid: 3bcb452470191584fb1f53dac792c25f, type: 3}
+    fps: 2
+  - nombre: Red
+    condiciones:
+    - nombreCondicion: Arma
+      valor: 1
+      condicional: 0
+    - nombreCondicion: Trepar
+      valor: 0
+      condicional: 0
+    predeterminada: 0
+    terminar: 0
+    otra: 0
+    repetir: 1
+    sprites:
+    - {fileID: 21300000, guid: 1f4e174e6a665994bbed1a375dc143a6, type: 3}
+    - {fileID: 21300000, guid: 34c8f9e1440d7e94790de7d4c14fc9f8, type: 3}
+    fps: 2
+  - nombre: Trepar
+    condiciones:
+    - nombreCondicion: Trepar
+      valor: 1
+      condicional: 0
+    predeterminada: 0
+    terminar: 0
+    otra: 0
+    repetir: 0
+    sprites:
+    - {fileID: 21300000, guid: 81d29d72a6ec26c4188e1f9753a40527, type: 3}
+    - {fileID: 21300000, guid: f0aa8b548dda38c4a90bfd9e14a94b09, type: 3}
+    fps: 2

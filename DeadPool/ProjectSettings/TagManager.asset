@@ -17,7 +17,7 @@ TagManager:
   - 
   - Player
   - Ground
-  - 
+  - Enemigo
   - 
   - 
   - 
@@ -40,6 +40,27 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Escenario
+    uniqueID: 2505015563
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Decoracion
+    uniqueID: 670881175
+    locked: 0
+  - name: Objetos
+    uniqueID: 2313195343
+    locked: 0
+  - name: Personajes
+    uniqueID: 3181766041
+    locked: 0
+  - name: Enemigos
+    uniqueID: 1399429661
+    locked: 0
+  - name: DecoracionPosterior
+    uniqueID: 4035148549
+    locked: 0
+  - name: GUI
+    uniqueID: 2232379941
     locked: 0

@@ -44,6 +44,16 @@ public class AnimacionVariable {
         values = new List<float>();
     }
 
+    public void CopyOf (AnimacionVariable value) {
+        keys = new List<string>();
+        values = new List<float>();
+
+        for (int i = 0; i < value.keys.Count; i++) {
+            keys.Add(value.keys[i]);
+            values.Add(value.values[i]);
+        }
+    }
+
     public void Add (string _key, float _value) {
         keys.Add(_key);
         values.Add(_value);
